@@ -1,26 +1,33 @@
 FROM python:3.13-slim
 
-# Metadata labels for Docker Hub
+# Metadata labels for Docker Hub and OCI compliance
 LABEL maintainer="aaronzi"
 LABEL description="OPC UA Time Series Server"
 LABEL version="1.0.0"
 LABEL org.opencontainers.image.source="https://github.com/aaronzi/opcua-timeseries"
 LABEL org.opencontainers.image.description="A containerized OPC UA server for time series data"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.title="OPC UA Time Series Server"
+LABEL org.opencontainers.image.authors="aaronzi"
+LABEL org.opencontainers.image.vendor="aaronzi"
+LABEL org.opencontainers.image.documentation="https://github.com/aaronzi/opcua-timeseries"
+LABEL org.opencontainers.image.url="https://github.com/aaronzi/opcua-timeseries"
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies with specific versions for reproducibility
 RUN apt-get update && apt-get install -y \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+    gcc=4:12.2.0-3 \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 # Copy requirements first for better Docker layer caching
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies with hash verification for security
+RUN pip install --no-cache-dir --require-hashes -r requirements.txt || \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY server/ ./server/

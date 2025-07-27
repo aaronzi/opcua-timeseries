@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  opcua-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      cache_from:
+        - python:3.13-slim
+      args:
+        BUILDKIT_ATTESTATIONS: "true"
+        BUILDKIT_SBOM: "true"
+    image: aaronzi/opcua-timeseries:latest
+    container_name: opcua-timeseries-server
+    ports:
+      - "4840:4840"
+    volumes:
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "python", "-c", "import asyncio; from server.client_test import test_connection; asyncio.run(test_connection())"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - opcua-network
+
+networks:
+  opcua-network:
+    driver: bridge
+    name: opcua-network

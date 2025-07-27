@@ -70,6 +70,18 @@ The server simulates a CNC machining center with the following subsystems:
    docker-compose up
    ```
 
+## Security & Supply Chain
+
+This project implements comprehensive supply chain security measures:
+
+- **🔐 SBOM Generation**: Software Bill of Materials for complete dependency tracking
+- **📋 Provenance Attestations**: Cryptographically signed build records
+- **🛡️ Container Security**: Non-root user, read-only filesystem, security policies
+- **✅ Automated CI/CD**: GitHub Actions with attestation support
+- **📦 Multi-platform Builds**: AMD64 and ARM64 support with consistent attestations
+
+For detailed security information, see [SECURITY.md](SECURITY.md).
+
 ### Using Dev Container
 
 1. **Open in VS Code with Dev Containers extension**
