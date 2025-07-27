@@ -4,7 +4,7 @@ Configuration management for the OPC UA server.
 
 import yaml
 from pathlib import Path
-from typing import Dict, Any, Union
+from typing import Dict, Any
 import logging
 
 logger = logging.getLogger(__name__)

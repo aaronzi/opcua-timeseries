@@ -2,7 +2,6 @@
 Data models for the CNC machining center simulation.
 """
 
-import time
 import random
 import numpy as np
 from datetime import datetime

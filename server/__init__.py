@@ -6,4 +6,4 @@ producing time series data through OPC UA protocol.
 """
 
 __version__ = "1.0.0"
-__author__ = "Manufacturing Automation Team"
+__author__ = "Aaron Zielstorff"

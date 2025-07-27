@@ -322,7 +322,7 @@ class CNCOPCUAServer:
         try:
             # Machine state
             await self.nodes['machine_state'].write_value(data.state.value)
-
+            
             # Spindle data - ensure float types
             await self.nodes['spindle_speed'].write_value(
                 float(data.spindle.speed))
@@ -334,7 +334,7 @@ class CNCOPCUAServer:
                 float(data.spindle.power))
             await self.nodes['spindle_temperature'].write_value(
                 float(data.spindle.temperature))
-
+            
             # Feed system data
             await self.nodes['feed_rate'].write_value(float(data.feed.rate))
             await self.nodes['feed_override'].write_value(
@@ -345,47 +345,82 @@ class CNCOPCUAServer:
                 float(data.feed.position_y))
             await self.nodes['position_z'].write_value(
                 float(data.feed.position_z))
-
-            # Tool data - mix of int and float
-            await self.nodes['tool_number'].write_value(int(data.tool.number))
-            await self.nodes['tool_life'].write_value(float(data.tool.life_remaining))
-            await self.nodes['tool_wear_x'].write_value(float(data.tool.wear_x))
-            await self.nodes['tool_wear_z'].write_value(float(data.tool.wear_z))
+            
+            # Tool data - ensure proper int32 conversion for integers
+            tool_number = int(data.tool.number)
+            # Ensure it fits in Int32 range (-2147483648 to 2147483647)
+            if tool_number > 2147483647:
+                tool_number = 2147483647
+            elif tool_number < -2147483648:
+                tool_number = -2147483648
+            tool_variant = ua.Variant(tool_number, ua.VariantType.Int32)
+            await self.nodes['tool_number'].write_value(tool_variant)
+            
+            await self.nodes['tool_life'].write_value(
+                float(data.tool.life_remaining))
+            await self.nodes['tool_wear_x'].write_value(
+                float(data.tool.wear_x))
+            await self.nodes['tool_wear_z'].write_value(
+                float(data.tool.wear_z))
             await self.nodes['tool_state'].write_value(data.tool.state.value)
-
+            
             # Vibration data
-            await self.nodes['vibration_x'].write_value(float(data.vibration.x_axis))
-            await self.nodes['vibration_y'].write_value(float(data.vibration.y_axis))
-            await self.nodes['vibration_z'].write_value(float(data.vibration.z_axis))
+            await self.nodes['vibration_x'].write_value(
+                float(data.vibration.x_axis))
+            await self.nodes['vibration_y'].write_value(
+                float(data.vibration.y_axis))
+            await self.nodes['vibration_z'].write_value(
+                float(data.vibration.z_axis))
             await self.nodes['vibration_overall'].write_value(
                 float(data.vibration.overall))
-
-            # Production data - mix of int and float
-            await self.nodes['parts_produced'].write_value(
-                int(data.production.parts_produced))
+            
+            # Production data - ensure proper int32 conversion for integers
+            parts_produced = int(data.production.parts_produced)
+            if parts_produced > 2147483647:
+                parts_produced = 2147483647
+            elif parts_produced < -2147483648:
+                parts_produced = -2147483648
+            parts_variant = ua.Variant(parts_produced, ua.VariantType.Int32)
+            await self.nodes['parts_produced'].write_value(parts_variant)
+            
             await self.nodes['cycle_time'].write_value(
                 float(data.production.cycle_time))
-            await self.nodes['good_parts'].write_value(int(data.production.good_parts))
-            await self.nodes['rejected_parts'].write_value(
-                int(data.production.rejected_parts))
+            
+            good_parts = int(data.production.good_parts)
+            if good_parts > 2147483647:
+                good_parts = 2147483647
+            elif good_parts < -2147483648:
+                good_parts = -2147483648
+            # Create explicit Int32 variant
+            good_parts_variant = ua.Variant(good_parts, ua.VariantType.Int32)
+            await self.nodes['good_parts'].write_value(good_parts_variant)
+            
+            rejected_parts = int(data.production.rejected_parts)
+            if rejected_parts > 2147483647:
+                rejected_parts = 2147483647
+            elif rejected_parts < -2147483648:
+                rejected_parts = -2147483648
+            rejected_parts_variant = ua.Variant(rejected_parts, ua.VariantType.Int32)
+            await self.nodes['rejected_parts'].write_value(rejected_parts_variant)
+            
             await self.nodes['efficiency'].write_value(
                 float(data.production.efficiency))
-
+            
             # Auxiliary systems
-            await self.nodes['coolant_level'].write_value(float(data.coolant_level))
+            await self.nodes['coolant_level'].write_value(
+                float(data.coolant_level))
             await self.nodes['coolant_temperature'].write_value(
                 float(data.coolant_temperature))
-            await self.nodes['air_pressure'].write_value(float(data.air_pressure))
+            await self.nodes['air_pressure'].write_value(
+                float(data.air_pressure))
             await self.nodes['hydraulic_pressure'].write_value(
                 float(data.hydraulic_pressure))
-
+            
             # Timestamp
             await self.nodes['timestamp'].write_value(data.timestamp)
-
+            
         except Exception as e:
             logger.error(f"Error updating OPC UA variables: {e}")
-
-
 async def main():
     """Main function to run the OPC UA server."""
     # Setup logging

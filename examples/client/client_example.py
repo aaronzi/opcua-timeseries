@@ -7,6 +7,7 @@ import asyncio
 import logging
 import csv
 from datetime import datetime
+from typing import Any, Dict
 from asyncua import Client
 
 
@@ -16,7 +17,7 @@ class CNClientExample:
     def __init__(self, url: str = "opc.tcp://localhost:4840/freeopcua/server/"):
         self.url = url
         self.client = None
-        self.nodes = {}
+        self.nodes: Dict[str, Any] = {}
         
     async def connect(self):
         """Connect to the OPC UA server."""

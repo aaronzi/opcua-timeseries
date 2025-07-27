@@ -5,7 +5,6 @@ Setup script for the OPC UA CNC Server.
 
 import sys
 import subprocess
-import os
 from pathlib import Path
 
 
