@@ -3,6 +3,12 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# OPC UA Server specific
+logs/
+data/
+*.csv
+config/local_config.yaml
+
 # C extensions
 *.so
 

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Build and run the OPC UA server using Docker
+
+echo "Building OPC UA CNC Server Docker image..."
+docker build -t opcua-cnc-server .
+
+echo "Running OPC UA CNC Server..."
+docker run -p 4840:4840 --name opcua-cnc-server opcua-cnc-server

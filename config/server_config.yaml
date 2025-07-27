@@ -1,0 +1,38 @@
+server:
+  name: "CNC Machining Center OPC UA Server"
+  endpoint: "opc.tcp://0.0.0.0:4840/freeopcua/server/"
+  namespace: "http://manufacturing.example.com/cnc"
+  
+machine:
+  name: "DMG MORI CTX 650 CNC Lathe"
+  model: "CTX650"
+  manufacturer: "DMG MORI"
+  serial_number: "CTX650-2024-001"
+  
+simulation:
+  update_interval: 1.0  # seconds
+  noise_factor: 0.05    # 5% noise on sensor readings
+  
+parameters:
+  spindle:
+    max_speed: 6000      # RPM
+    min_speed: 100       # RPM
+    acceleration: 500    # RPM/s
+    
+  feed_rate:
+    max_rate: 15000      # mm/min
+    min_rate: 10         # mm/min
+    
+  temperature:
+    ambient: 22          # °C
+    max_operating: 85    # °C
+    
+  vibration:
+    normal_range: [0.1, 0.3]  # mm/s RMS
+    warning_threshold: 1.0     # mm/s RMS
+    alarm_threshold: 2.0       # mm/s RMS
+    
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/opcua_server.log"

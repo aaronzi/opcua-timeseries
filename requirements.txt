@@ -1,0 +1,22 @@
+# OPC UA Server dependencies
+asyncua==1.1.5
+
+# Data generation and manipulation
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Configuration management
+pyyaml>=6.0
+
+# Logging
+structlog>=23.0.0
+
+# Development dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0
+
+# Additional utilities
+python-dateutil>=2.8.0

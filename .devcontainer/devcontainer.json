@@ -1,0 +1,29 @@
+{
+    "name": "OPC UA Timeseries Server",
+    "image": "python:3.13-slim",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.black-formatter",
+                "ms-python.flake8",
+                "ms-python.mypy-type-checker",
+                "ms-vscode.vscode-json",
+                "redhat.vscode-yaml"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.formatting.provider": "black",
+                "python.linting.enabled": true,
+                "python.linting.flake8Enabled": true,
+                "python.testing.pytestEnabled": true,
+                "editor.formatOnSave": true,
+                "files.eol": "\n"
+            }
+        }
+    },
+    "forwardPorts": [4840],
+    "postCreateCommand": "pip install -r requirements.txt",
+    "remoteUser": "opcua"
+}

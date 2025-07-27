@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  opcua-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4840:4840"
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    
+  # Optional: Add InfluxDB for data storage
+  influxdb:
+    image: influxdb:2.7
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpassword
+      - DOCKER_INFLUXDB_INIT_ORG=manufacturing
+      - DOCKER_INFLUXDB_INIT_BUCKET=opcua-data
+    
+volumes:
+  influxdb-data:
