@@ -14,7 +14,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
       id-token: write
       attestations: write
@@ -74,6 +74,8 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
           format: spdx-json
           output-file: sbom.spdx.json
+          upload-artifact: true
+          upload-release-assets: false
 
       - name: Upload SBOM as artifact
         if: github.event_name == 'release'
