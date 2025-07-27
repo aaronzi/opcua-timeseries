@@ -49,7 +49,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=pr
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable=${{ github.event_name == 'release' }}
             type=raw,value=${{ steps.version.outputs.version }},enable=${{ github.event_name == 'release' }}
             type=raw,value=${{ steps.version.outputs.tag }},enable=${{ github.event_name == 'release' }}
 
