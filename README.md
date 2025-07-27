@@ -51,11 +51,20 @@ The server simulates a CNC machining center with the following subsystems:
 
 ## Quick Start
 
+### Docker off-the-shelf component
+
+This project provides a ready-to-use Docker image for quick deployment. You can run the OPC UA server without needing to set up the environment manually.
+
+```bash
+docker pull aaronzi/opcua-timeseries:latest
+docker run -p 4840:4840 aaronzi/opcua-timeseries:latest
+```
+
 ### Using Docker (Recommended)
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/aaronzi/opcua-timeseries
    cd opcua-timeseries
    ```
 
@@ -87,16 +96,14 @@ For detailed security information, see [SECURITY.md](SECURITY.md).
 1. **Open in VS Code with Dev Containers extension**
 2. **Reopen in Container** when prompted
 3. **Run the server:**
-   ```bash
-   python -m server.main
-   ```
+   Use the provided launch configurations in the `Run and Debug` panel to start the server within the container environment.
 
 ### Local Development
 
 1. **Install Python 3.13**
 2. **Install dependencies:**
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements-dev.txt
    ```
 3. **Run the server:**
    ```bash
@@ -118,7 +125,7 @@ python -m server.client_test
 
 #### Data Collection Example
 ```bash
-python examples/client_example.py
+python examples/client/client_example.py
 ```
 
 #### Using OPC UA Client Tools
@@ -198,30 +205,6 @@ simulation:
 ```
 
 ## Development
-
-### Project Structure
-```
-opcua-timeseries/
-├── server/                 # Main server implementation
-│   ├── __init__.py
-│   ├── main.py            # Entry point
-│   ├── config.py          # Configuration management
-│   ├── simulation.py      # CNC simulation logic
-│   ├── opcua_server.py    # OPC UA server implementation
-│   └── client_test.py     # Client testing utilities
-├── config/                # Configuration files
-│   └── server_config.yaml
-├── examples/              # Usage examples
-│   └── client_example.py
-├── scripts/               # Utility scripts
-│   ├── run_server.sh
-│   └── run_server.bat
-├── .devcontainer/         # VS Code dev container
-├── requirements.txt       # Python dependencies
-├── Dockerfile            # Docker container
-├── docker-compose.yml    # Docker Compose configuration
-└── README.md
-```
 
 ### Adding New Machine Types
 
