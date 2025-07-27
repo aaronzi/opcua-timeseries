@@ -5,7 +5,6 @@ OPC UA client test utility for connecting to the CNC server.
 import asyncio
 import logging
 from asyncua import Client
-from datetime import datetime
 
 
 async def test_connection(url: str = "opc.tcp://localhost:4840/freeopcua/server/"):

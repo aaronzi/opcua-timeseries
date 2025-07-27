@@ -3,7 +3,6 @@ Basic tests for the OPC UA CNC server.
 """
 
 import pytest
-import asyncio
 from server.config import ServerConfig
 from server.simulation import CNCSim, MachineState
 
