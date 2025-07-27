@@ -4,9 +4,11 @@ OPC UA client test utility for connecting to the CNC server.
 
 import asyncio
 import logging
+import pytest
 from asyncua import Client
 
 
+@pytest.mark.asyncio
 async def test_connection(url: str = "opc.tcp://localhost:4840/freeopcua/server/"):
     """Test connection to OPC UA server."""
     logger = logging.getLogger(__name__)
@@ -37,7 +39,8 @@ async def test_connection(url: str = "opc.tcp://localhost:4840/freeopcua/server/
         return False
 
 
-async def read_machine_data(url: str = "opc.tcp://localhost:4840/freeopcua/server/"):
+@pytest.mark.asyncio
+async def test_read_machine_data(url: str = "opc.tcp://localhost:4840/freeopcua/server/"):
     """Read and display machine data from OPC UA server."""
     logger = logging.getLogger(__name__)
     
@@ -96,7 +99,7 @@ async def monitor_machine_data(url: str = "opc.tcp://localhost:4840/freeopcua/se
             start_time = asyncio.get_event_loop().time()
             
             while (asyncio.get_event_loop().time() - start_time) < duration:
-                await read_machine_data(url)
+                await test_read_machine_data(url)
                 await asyncio.sleep(5)  # Read every 5 seconds
                 
     except Exception as e:
@@ -120,7 +123,7 @@ def main():
     if choice == "1":
         asyncio.run(test_connection())
     elif choice == "2":
-        asyncio.run(read_machine_data())
+        asyncio.run(test_read_machine_data())
     elif choice == "3":
         asyncio.run(monitor_machine_data())
     else:
