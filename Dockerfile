@@ -1,5 +1,13 @@
 FROM python:3.13-slim
 
+# Metadata labels for Docker Hub
+LABEL maintainer="aaronzi"
+LABEL description="OPC UA Time Series Server"
+LABEL version="1.0.0"
+LABEL org.opencontainers.image.source="https://github.com/aaronzi/opcua-timeseries"
+LABEL org.opencontainers.image.description="A containerized OPC UA server for time series data"
+LABEL org.opencontainers.image.licenses="MIT"
+
 # Set working directory
 WORKDIR /app
 

@@ -1,0 +1,37 @@
+# Example configuration for InfluxDB integration
+# Copy this to the main config directory and modify as needed
+
+server:
+  endpoint: "opc.tcp://0.0.0.0:4840/opcua/server"
+  name: "OPC UA Time Series Server"
+  description: "Server for time series data with InfluxDB integration"
+
+# InfluxDB configuration
+influxdb:
+  url: "http://influxdb:8086"
+  token: "opcua-admin-token-please-change-this"
+  org: "opcua-org"
+  bucket: "opcua-timeseries"
+
+# Data simulation settings
+simulation:
+  enabled: true
+  interval: 5 # seconds
+  sensors:
+    - name: "temperature"
+      min_value: 20.0
+      max_value: 80.0
+      unit: "°C"
+    - name: "pressure"
+      min_value: 1.0
+      max_value: 10.0
+      unit: "bar"
+    - name: "flow_rate"
+      min_value: 0.0
+      max_value: 100.0
+      unit: "L/min"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
