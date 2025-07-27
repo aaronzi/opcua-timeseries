@@ -1,7 +1,10 @@
 {
     "name": "OPC UA Timeseries Server",
-    "image": "python:3.13-slim",
-    "workspaceFolder": "/workspace",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
     "customizations": {
         "vscode": {
             "extensions": [
@@ -24,6 +27,5 @@
         }
     },
     "forwardPorts": [4840],
-    "postCreateCommand": "pip install -r requirements.txt",
-    "remoteUser": "opcua"
+    "postCreateCommand": "pip install --no-cache-dir -r requirements.txt",
 }

@@ -1,0 +1,63 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start OPC UA Server",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "server.main",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+                "PYTHONUNBUFFERED": "1"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Test OPC UA Client",
+            "type": "debugpy", 
+            "request": "launch",
+            "module": "server.client_test",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+                "PYTHONUNBUFFERED": "1"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Run Client Example",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/client_example.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+                "PYTHONUNBUFFERED": "1"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug OPC UA Server",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "server.main",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+                "PYTHONUNBUFFERED": "1",
+                "LOG_LEVEL": "DEBUG"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false,
+            "logToFile": true
+        }
+    ]
+}
