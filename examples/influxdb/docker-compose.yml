@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   opcua-server:
     image: aaronzi/opcua-timeseries:1.0.0
@@ -19,15 +17,15 @@ services:
     depends_on:
       - influxdb
     healthcheck:
-      test: ["CMD", "python", "-c", "import asyncio; from server.client_test import test_connection; asyncio.run(test_connection())"]
+      test: ["CMD", "python", "-c", "import asyncio; from server.client_test import test_connection; asyncio.run(test_connection('opc.tcp://localhost:4840/opcua/server'))"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
 
   influxdb:
-    image: influxdb:2.7-alpine
-    container_name: opcua-influxdb
+    image: influxdb:2
+    container_name: influxdb
     ports:
       - "8086:8086"
     volumes:
@@ -36,11 +34,10 @@ services:
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpassword
-      - DOCKER_INFLUXDB_INIT_ORG=opcua-org
+      - DOCKER_INFLUXDB_INIT_PASSWORD=influxpassword
+      - DOCKER_INFLUXDB_INIT_ORG=htw
       - DOCKER_INFLUXDB_INIT_BUCKET=opcua-timeseries
-      - DOCKER_INFLUXDB_INIT_RETENTION=1w
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=opcua-admin-token-please-change-this
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=S18VeAlq042B4naMX31oqIaSGmUmOLAC-DV3VIdkxDJuAhTXLTVFEchyTSmCcUAmB7Wu94KgExzV8gJaDjzR3Q==
     networks:
       - opcua-network
     restart: unless-stopped
@@ -51,9 +48,23 @@ services:
       retries: 3
       start_period: 30s
 
+  telegraf:
+    image: telegraf:1.29.1
+    container_name: telegraf
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    networks:
+      - opcua-network
+    restart: unless-stopped
+    depends_on:
+      influxdb:
+        condition: service_healthy
+      opcua-server:
+        condition: service_healthy
+
   grafana:
     image: grafana/grafana:10.2.0
-    container_name: opcua-grafana
+    container_name: grafana
     ports:
       - "3000:3000"
     volumes:
