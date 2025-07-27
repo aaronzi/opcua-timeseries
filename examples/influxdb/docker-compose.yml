@@ -1,6 +1,6 @@
 services:
   opcua-server:
-    image: aaronzi/opcua-timeseries:1.0.0
+    image: aaronzi/opcua-timeseries:latest
     container_name: opcua-timeseries-server
     ports:
       - "4840:4840"
@@ -63,7 +63,7 @@ services:
         condition: service_healthy
 
   grafana:
-    image: grafana/grafana:10.2.0
+    image: grafana/grafana:12.1.0
     container_name: grafana
     ports:
       - "3000:3000"
@@ -72,7 +72,6 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_INSTALL_PLUGINS=grafana-influxdb-datasource
     networks:
       - opcua-network
     restart: unless-stopped
