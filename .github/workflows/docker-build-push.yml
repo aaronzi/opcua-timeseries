@@ -3,8 +3,6 @@ name: Build and Push Docker Image with Attestations
 on:
   release:
     types: [published]
-  pull_request:
-    branches: [master, main]
 
 env:
   REGISTRY: docker.io
@@ -47,10 +45,12 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=auto
+            suffix=
+            prefix=
           tags: |
-            type=ref,event=pr
             type=raw,value=latest,enable=${{ github.event_name == 'release' }}
-            type=raw,value=${{ steps.version.outputs.version }},enable=${{ github.event_name == 'release' }}
             type=raw,value=${{ steps.version.outputs.tag }},enable=${{ github.event_name == 'release' }}
 
       - name: Build and push Docker image
@@ -58,7 +58,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
