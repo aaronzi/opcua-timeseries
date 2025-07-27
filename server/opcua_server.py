@@ -7,6 +7,8 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
+from typing import Dict, Any
+
 from asyncua import Server, ua
 from asyncua.common.methods import uamethod
 
@@ -24,7 +26,7 @@ class CNCOPCUAServer:
         self.server = Server()
         self.simulator = CNCSim(config.simulation)
         self.namespace_idx: int = 0  # Will be set during start()
-        self.nodes = {}
+        self.nodes: Dict[str, Any] = {}
         self.running = False
 
         # Setup server
@@ -287,9 +289,12 @@ class CNCOPCUAServer:
         for node_name, unit in units.items():
             if node_name in self.nodes:
                 try:
+                    description = ua.LocalizedText(f"Unit: {unit}")
+                    variant = ua.Variant(
+                        description, ua.VariantType.LocalizedText)
                     await self.nodes[node_name].write_attribute(
                         ua.AttributeIds.Description,
-                        ua.DataValue(ua.LocalizedText(f"Unit: {unit}"))
+                        ua.DataValue(variant)
                     )
                 except Exception as e:
                     logger.warning(f"Could not set unit for {node_name}: {e}")

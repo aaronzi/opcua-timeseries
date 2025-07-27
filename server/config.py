@@ -4,7 +4,7 @@ Configuration management for the OPC UA server.
 
 import yaml
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Union
 import logging
 
 logger = logging.getLogger(__name__)
@@ -23,7 +23,12 @@ class ServerConfig:
             with open(self.config_path, 'r') as file:
                 config = yaml.safe_load(file)
             logger.info(f"Configuration loaded from {self.config_path}")
-            return config
+            # Ensure we return a dict, fallback to default if not
+            if isinstance(config, dict):
+                return config
+            else:
+                logger.warning("Configuration file did not contain a dict, using defaults")
+                return self._get_default_config()
         except FileNotFoundError:
             logger.error(f"Configuration file not found: {self.config_path}")
             return self._get_default_config()
@@ -76,10 +81,10 @@ class ServerConfig:
             }
         }
     
-    def get(self, key: str, default=None):
+    def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value by key."""
         keys = key.split('.')
-        value = self._config
+        value: Any = self._config
         for k in keys:
             if isinstance(value, dict) and k in value:
                 value = value[k]
@@ -90,19 +95,27 @@ class ServerConfig:
     @property
     def server(self) -> Dict[str, Any]:
         """Get server configuration."""
-        return self._config.get("server", {})
+        result = self._config.get("server", {})
+        # Ensure we always return a dict
+        return result if isinstance(result, dict) else {}
     
     @property
     def machine(self) -> Dict[str, Any]:
         """Get machine configuration."""
-        return self._config.get("machine", {})
+        result = self._config.get("machine", {})
+        # Ensure we always return a dict
+        return result if isinstance(result, dict) else {}
     
     @property
     def simulation(self) -> Dict[str, Any]:
         """Get simulation configuration."""
-        return self._config.get("simulation", {})
+        result = self._config.get("simulation", {})
+        # Ensure we always return a dict
+        return result if isinstance(result, dict) else {}
     
     @property
     def parameters(self) -> Dict[str, Any]:
         """Get machine parameters configuration."""
-        return self._config.get("parameters", {})
+        result = self._config.get("parameters", {})
+        # Ensure we always return a dict
+        return result if isinstance(result, dict) else {}
