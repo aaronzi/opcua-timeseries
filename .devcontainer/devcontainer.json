@@ -26,6 +26,8 @@
             }
         }
     },
-    "forwardPorts": [4840],
-    "postCreateCommand": "pip install --no-cache-dir -r requirements.txt",
+    "forwardPorts": [
+        4840
+    ],
+    "postCreateCommand": "pip install --no-cache-dir -r requirements-dev.txt"
 }

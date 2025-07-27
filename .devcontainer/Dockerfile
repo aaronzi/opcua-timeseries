@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     gcc \
+    g++ \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up workspace
