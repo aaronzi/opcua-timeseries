@@ -12,4 +12,4 @@ pyyaml==6.0.2
 structlog==24.1.0
 
 # Additional utilities
-python-dateutil==2.9.0
+python-dateutil==2.9.0.post0
