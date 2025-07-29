@@ -63,18 +63,21 @@ docker run -p 4840:4840 aaronzi/opcua-timeseries:latest
 ### Using Docker (Recommended)
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/aaronzi/opcua-timeseries
    cd opcua-timeseries
    ```
 
 2. **Build and run with Docker:**
+
    ```bash
-   docker build -t opcua-cnc-server .
-   docker run -p 4840:4840 opcua-cnc-server
+   docker build -t opcua-timeseries .
+   docker run -p 4840:4840 opcua-timeseries
    ```
 
 3. **Or use Docker Compose:**
+
    ```bash
    docker-compose up
    ```
