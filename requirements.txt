@@ -9,7 +9,7 @@ pandas==2.3.3
 pyyaml==6.0.3
 
 # Logging
-structlog==25.4.0
+structlog==25.5.0
 
 # Additional utilities
 python-dateutil==2.9.0.post0
