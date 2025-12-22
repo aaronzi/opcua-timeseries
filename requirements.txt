@@ -2,7 +2,7 @@
 asyncua==1.1.8
 
 # Data generation and manipulation
-numpy==2.3.5
+numpy==2.4.0
 pandas==2.3.3
 
 # Configuration management
