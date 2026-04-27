@@ -11,4 +11,4 @@ types-PyYAML==6.0.12.20260408
 
 # Additional development tools
 isort==8.0.1
-pre-commit==4.5.1
+pre-commit==4.6.0
