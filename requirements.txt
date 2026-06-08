@@ -1,5 +1,5 @@
 # OPC UA Server dependencies
-asyncua==1.1.8
+asyncua==2.0
 
 # Data generation and manipulation
 numpy==2.4.6
