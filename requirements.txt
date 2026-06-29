@@ -3,7 +3,7 @@ asyncua==2.0
 
 # Data generation and manipulation
 numpy==2.5.0
-pandas==3.0.3
+pandas==3.0.4
 
 # Configuration management
 pyyaml==6.0.3
