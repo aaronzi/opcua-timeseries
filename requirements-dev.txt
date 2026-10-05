@@ -10,5 +10,5 @@ mypy==2.3.1
 types-PyYAML==6.0.12.20260906
 
 # Additional development tools
-isort==9.0.1
+isort==9.0.2
 pre-commit==4.6.2
