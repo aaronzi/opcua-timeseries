@@ -3,7 +3,7 @@
 
 # Development and testing dependencies
 pytest==9.2.0
-pytest-asyncio==1.4.1
+pytest-asyncio==1.4.1.post1
 black==26.10.1
 flake8==7.5.0
 mypy==2.4.1
